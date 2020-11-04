@@ -8,6 +8,14 @@ function createQuestionmarks(number) {
     return array.toString();
 };
 
+function objToSql(ob) {
+    var arr = [];
+    for (var key in ob) {
+      arr.push(key + "=" + ob[key]);
+    }
+    return arr.toString();
+  }
+  
 var orm = {
     selectAll: function (table, cb) {
         const queryString = "SELECT * FROM " + table + ";";
@@ -17,20 +25,29 @@ var orm = {
         });
     },
     insertOne: function (table, cols, vals, cb) {
-        const queryString = "INSERT INTO " + table + " (" + cols.toString() + ") VALUES (" + createQuestionmarks(vals.length) + ");";
-        console.log(queryString);
+        const queryString = "INSERT INTO " + table;
+        queryString += " (";
+        queryString += cols.toString();
+        queryString += ") ";
+        queryString += "VALUES (";
+        queryString += createQuestionmarks(vals.length);
+        queryString += ") ";
+
+        connection.query(queryString, vals, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            cb(result);
+        });
     },
     updateOne: function (table, objVals, condition, cb) {
         const queryString = "UPDATE " + table;
-
-        var queryString = "UPDATE " + table;
 
         queryString += " SET ";
         queryString += objToSql(objVals);
         queryString += " WHERE ";
         queryString += condition;
 
-        console.log(queryString);
         connection.query(queryString, function (err, result) {
             if (err) {
                 throw err;
