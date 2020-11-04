@@ -1,5 +1,5 @@
 const express = require("express");
-const burger = require("../models/burgers.js")
+const burger = require("../models/burger.js")
 
 const router = express.Router();
 
@@ -15,15 +15,15 @@ router.get("/burgers", function(req, res) {
 });
 
 router.post("/burgers/create", function(req, res) {
-    burger.createBurger(req.body.burger_name, function(res) {
-        console.log(res);
+    burger.createBurger(req.body.burger_name, function(result) {
+        console.log(result);
         res.redirect("/");
     });
 });
 
-router.put("/burger/:id", function(req, res) {
-    burger.eatBurger(req.params.id, function(res) {
-        console.log(res);
+router.put("/burgers/:id", function(req, res) {
+    burger.eatBurger(req.params.id, function(result) {
+        console.log(result);
         res.sendStatus(200);
     });
 });
