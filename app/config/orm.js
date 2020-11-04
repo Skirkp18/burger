@@ -18,14 +18,14 @@ function objToSql(ob) {
   
 var orm = {
     selectAll: function (table, cb) {
-        const queryString = "SELECT * FROM " + table + ";";
+        let queryString = "SELECT * FROM " + table + ";";
         connection.query(queryString, function (err, data) {
             if (err) throw err;
             cb(data);
         });
     },
     insertOne: function (table, cols, vals, cb) {
-        const queryString = "INSERT INTO " + table;
+        let queryString = "INSERT INTO " + table;
         queryString += " (";
         queryString += cols.toString();
         queryString += ") ";
@@ -41,7 +41,7 @@ var orm = {
         });
     },
     updateOne: function (table, objVals, condition, cb) {
-        const queryString = "UPDATE " + table;
+        let queryString = "UPDATE " + table;
 
         queryString += " SET ";
         queryString += objToSql(objVals);
